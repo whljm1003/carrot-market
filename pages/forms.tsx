@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { FieldErrors, useForm } from "react-hook-form";
 
-// Better Erros (set, clear)
-// Have control over inputs
-
 interface LoginForm {
   username: string;
   password: string;
   email: string;
+  error?: string;
 }
 
 export default function Forms() {
@@ -15,6 +13,11 @@ export default function Forms() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setError,
+    setValue,
+    reset,
+    resetField,
   } = useForm<LoginForm>({
     mode: "onBlur",
   });
@@ -37,6 +40,7 @@ export default function Forms() {
         type="text"
         placeholder="Username"
       />
+      {errors.username?.message}
       <input
         {...register("email", {
           required: "Email is required",
@@ -48,7 +52,7 @@ export default function Forms() {
         type="email"
         placeholder="email"
       />
-      {errors.email?.message}
+      {errors.error?.message}
       <input
         {...register("password", { required: "Password is required" })}
         type="password"
