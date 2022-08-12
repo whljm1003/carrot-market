@@ -1,61 +1,28 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+
+// Less code (c)
+// Better validation
+// Better Erros (set, clear, display)
+// Have control over inputs
+// Dont deal with events (c)
+// Easier Inputs (c)
 
 export default function Forms() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [formErrors, setFormErrors] = useState("");
-  const [emailErrors, setEmailErrors] = useState("");
-  const onUsernameChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setUsername(value);
-  };
-  const onEmailChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setEmailErrors("");
-    setEmail(value);
-  };
-  const onPasswordChange = (event: React.SyntheticEvent<HTMLInputElement>) => {
-    const {
-      currentTarget: { value },
-    } = event;
-    setPassword(value);
-  };
-  const onSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (username === "" || email === "" || password === "") {
-      setFormErrors("All fields are required");
-    }
-    if (!email.includes("@")) {
-      setEmailErrors("email is required");
-    }
-  };
-
+  const { register, watch } = useForm();
+  console.log(watch());
   return (
-    <form onSubmit={onSubmit}>
+    <form>
       <input
+        {...register("username")}
         type="text"
-        value={username}
-        onChange={onUsernameChange}
         placeholder="Username"
         required
-        minLength={5}
       />
+      <input {...register("email")} type="email" placeholder="email" required />
       <input
-        type="email"
-        value={email}
-        onChange={onEmailChange}
-        placeholder="email"
-        required
-      />
-      <input
+        {...register("password")}
         type="password"
-        value={password}
-        onChange={onPasswordChange}
         placeholder="password"
         required
       />
