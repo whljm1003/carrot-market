@@ -13,7 +13,6 @@ interface EnterForm {
 
 const Enter: NextPage = () => {
   const [enter, { loading, data, error }] = useMutation("api/users/enter");
-  const [submitting, setSubmitting] = useState(false);
   const { register, handleSubmit, reset } = useForm<EnterForm>();
   const [method, setMethod] = useState<"email" | "phone">("email");
   const onEmailClick = () => {
@@ -24,19 +23,11 @@ const Enter: NextPage = () => {
     reset();
     setMethod("phone");
   };
-  const onValid = (data: EnterForm) => {
-    enter(data);
-    // setSubmitting(true);
-    // fetch("/api/users/enter", {
-    //   method: "POST",
-    //   body: JSON.stringify(data),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // }).then(() => {
-    //   setSubmitting(false);
-    // });
+  const onValid = (validForm: EnterForm) => {
+    if (loading) return;
+    enter(validForm);
   };
+  console.log(loading, data, error);
   return (
     <div className="mt-16 px-4">
       <h3 className="text-3xl font-bold text-center">Enter to Carrot</h3>
@@ -91,11 +82,11 @@ const Enter: NextPage = () => {
               required
             />
           ) : null}
-          {method === "email" ? <Button text={"Get login link"} /> : null}
+          {method === "email" ? (
+            <Button text={loading ? "Loding" : "Get login link"} />
+          ) : null}
           {method === "phone" ? (
-            <Button
-              text={submitting ? "Loading..." : "Get one-time password"}
-            />
+            <Button text={loading ? "Loading..." : "Get one-time password"} />
           ) : null}
         </form>
 
