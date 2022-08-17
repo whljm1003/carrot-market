@@ -1,6 +1,9 @@
+import twilio from "twilio";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
 import widthHandler, { ResponseType } from "@libs/server/widthHandler";
+
+const twilioClinet = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
 
 async function handler(
   req: NextApiRequest,
@@ -27,6 +30,15 @@ async function handler(
     },
   });
 
+  if (phone) {
+    const message = await twilioClinet.messages.create({
+      messagingServiceSid: process.env.TWILIO_MSID,
+      //이론적으론 req.body.phone을 적어야 하지만, 테스트용이기에 나의 폰번호를 적음
+      to: process.env.MY_PHONE!,
+      body: `Your login token is ${payload}`,
+    });
+    console.log(message);
+  }
   return res.json({
     ok: true,
   });
