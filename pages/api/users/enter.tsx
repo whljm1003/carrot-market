@@ -33,22 +33,22 @@ async function handler(
   });
 
   if (phone) {
-    const message = await twilioClinet.messages.create({
-      messagingServiceSid: process.env.TWILIO_MSID,
-      //이론적으론 req.body.phone을 적어야 하지만, 테스트용이기에 나의 폰번호를 적음
-      to: process.env.MY_PHONE!,
-      body: `Your login token is ${payload}`,
-    });
-    console.log(message);
+    // const message = await twilioClinet.messages.create({
+    //   messagingServiceSid: process.env.TWILIO_MSID,
+    //   //이론적으론 req.body.phone을 적어야 하지만, 테스트용이기에 나의 폰번호를 적음
+    //   to: process.env.MY_PHONE!,
+    //   body: `Your login token is ${payload}`,
+    // });
+    // console.log(message);
   } else if (email) {
-    const email = await mail.send({
-      from: "jungmin@codingtest.co.kr",
-      to: "whljm1003@gmail.com",
-      subject: "Your Carrot Market Verification Email",
-      text: `Your token is ${payload}`,
-      html: `<strong>Your token is ${payload}</strong>`,
-    });
-    console.log(email);
+    // const email = await mail.send({
+    //   from: "whljm1003@gmail.com",
+    //   to: "whljm1003@gmail.com",
+    //   subject: "Your Carrot Market Verification Email",
+    //   text: `Your token is ${payload}`,
+    //   html: `<strong>Your token is ${payload}</strong>`,
+    // });
+    // console.log(email);
   }
   return res.json({
     ok: true,
