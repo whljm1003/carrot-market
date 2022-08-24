@@ -55,4 +55,4 @@ async function handler(
   });
 }
 
-export default widthHandler("POST", handler);
+export default widthHandler({ method: "POST", handler });

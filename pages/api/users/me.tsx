@@ -16,4 +16,9 @@ async function handler(
   });
 }
 
-export default withApiSession(widthHandler("GET", handler));
+export default withApiSession(
+  widthHandler({
+    method: "GET",
+    handler,
+  })
+);

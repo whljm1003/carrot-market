@@ -26,4 +26,6 @@ async function handler(
   res.json({ ok: true });
 }
 
-export default withApiSession(widthHandler("POST", handler));
+export default withApiSession(
+  widthHandler({ method: "POST", handler, isPrivate: false })
+);
