@@ -2,7 +2,7 @@ import mail from "@sendgrid/mail";
 import twilio from "twilio";
 import { NextApiRequest, NextApiResponse } from "next";
 import client from "@libs/server/client";
-import widthHandler, { ResponseType } from "@libs/server/widthHandler";
+import widthHandler, { ResponseType } from "@libs/server/withHandler";
 
 mail.setApiKey(process.env.SENDGRID_KEY!);
 const twilioClinet = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
