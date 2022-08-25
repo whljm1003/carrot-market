@@ -1,15 +1,17 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useSWR from "swr";
 
-const fetcher = (url: string) => fetch(url).then((response) => response.json())
-
 export default function useUser() {
-  const {data, error} = useSWR("/api/users/me", fetcher)
+  const { data, error } = useSWR("/api/users/me");
+  const router = useRouter();
 
+  useEffect(() => {
+    if (data && !data.ok) {
+      // replace: 뒤로가기 버튼에 기록을 남기고 싶지 않을 때 사용.
+      router.replace("/enter");
+    }
+  }, [data, router]);
 
-  // replace: 뒤로가기 버튼에 기록을 남기고 싶지 않을 때 사용.
-  // return router.replace("/enter");
-
-  return data;
+  return { user: data?.profile, isLoading: !data && !error };
 }
