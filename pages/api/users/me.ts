@@ -18,7 +18,7 @@ async function handler(
 
 export default withApiSession(
   widthHandler({
-    method: "GET",
+    methods: ["GET"],
     handler,
   })
 );

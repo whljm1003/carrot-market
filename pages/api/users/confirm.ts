@@ -27,5 +27,5 @@ async function handler(
 }
 
 export default withApiSession(
-  widthHandler({ method: "POST", handler, isPrivate: false })
+  widthHandler({ methods: ["POST"], handler, isPrivate: false })
 );

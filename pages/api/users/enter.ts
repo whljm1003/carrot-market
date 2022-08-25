@@ -55,4 +55,4 @@ async function handler(
   });
 }
 
-export default widthHandler({ method: "POST", handler, isPrivate: false });
+export default widthHandler({ methods: ["POST"], handler, isPrivate: false });
