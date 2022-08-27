@@ -24,19 +24,20 @@ async function handler(
   });
   const terms = product?.name.split(" ").map((word) => ({
     name: {
-      contains: word,
+      contains: word, // name을 공백 단위로 구분해서 해당 단어가 있는 지 확인.
     },
   }));
   const relatedProducts = await client.product.findMany({
     where: {
       OR: terms,
       AND: {
+        // 현재 제품은 제외
         id: {
           not: product?.id,
         },
       },
     },
-    take: 4,
+    take: 4, // UI를 생각해 최대 4개까지만 출력
   });
   res.json({ ok: true, product, relatedProducts });
 }
