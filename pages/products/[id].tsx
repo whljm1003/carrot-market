@@ -26,14 +26,15 @@ const ItemDetail: NextPage = () => {
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
-  const [toggleFav] = useMutation(`api/products/${router.query.id}/fav`);
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  // fav 클릭 이벤트
   const onFavClick = () => {
     if (!data) return;
-    boundMutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
     // mutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
+    boundMutate((prev) => prev && { ...prev, isLiked: !prev.isLiked }, false);
     toggleFav({});
   };
-  console.log(data);
+
   return (
     <Layout canGoBack>
       <div className="px-4  py-4">
