@@ -33,20 +33,44 @@ const Streams: NextPage = () => {
   const router = useRouter();
   const { register, handleSubmit, reset } = useForm<MessageForm>();
   const { data, mutate } = useSWR<StreamResponse>(
-    router.query.id ? `/api/streams/${router.query.id}` : null
+    router.query.id ? `/api/streams/${router.query.id}` : null,
+    { refreshInterval: 1000 }
   );
   const [sendMessage, { loading, data: sendMessageData }] = useMutation(`
     /api/streams/${router.query.id}/messages`);
   const onValid = (form: MessageForm) => {
     if (loading) return;
     reset();
+    mutate(
+      (prev) =>
+        prev &&
+        ({
+          ...prev,
+          stream: {
+            ...prev.stream,
+            messages: [
+              ...prev.stream.messages,
+              {
+                id: Date.now(),
+                message: form.message,
+                user: {
+                  ...user,
+                },
+              },
+            ],
+          },
+        } as any),
+      false
+    );
     sendMessage(form);
   };
-  useEffect(() => {
-    if (sendMessageData && sendMessageData.ok) {
-      mutate();
-    }
-  }, [sendMessageData, mutate]);
+
+  // 이렇게 하면 너무 느려서 가짜 데이터를 유저에게 먼저 보여주는 방식으로 변경
+  // useEffect(() => {
+  //   if (sendMessageData && sendMessageData.ok) {
+  //     mutate();
+  //   }
+  // }, [sendMessageData, mutate]);
 
   return (
     <Layout canGoBack>
