@@ -4,7 +4,7 @@ declare global {
   var client: PrismaClient | undefined;
 }
 // 여러개 생기는 client 를 관리 해주기 위함.
-const client = global.client || new PrismaClient();
+const client = global.client || new PrismaClient({ log: ["query"] });
 
 if (process.env.NODE_ENV === "development") global.client = client;
 
