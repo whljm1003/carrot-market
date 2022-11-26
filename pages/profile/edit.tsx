@@ -49,6 +49,15 @@ const EditProfile: NextPage = () => {
       const cloudflareRequest = await (await fetch(`/api/files`)).json();
       console.log(cloudflareRequest);
       // upload file to CF URL
+      if (avatar && avatar.length && user) {
+        const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+        const form = new FormData();
+        form.append("file", avatar[0], user?.id + "");
+        await fetch(uploadURL, {
+          method: "POST",
+          body: form,
+        });
+      }
       return;
       editProfile({
         email,
