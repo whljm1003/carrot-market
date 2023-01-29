@@ -38,6 +38,7 @@ const EditProfile: NextPage = () => {
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
+
   const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
@@ -47,7 +48,8 @@ const EditProfile: NextPage = () => {
     }
     if (avatar && avatar.length > 0) {
       const cloudflareRequest = await (await fetch(`/api/files`)).json();
-      console.log(cloudflareRequest);
+      // console.log("cloudflareRequest=>", cloudflareRequest);
+
       // upload file to CF URL
       if (avatar && avatar.length && user) {
         const { id, uploadURL } = await (await fetch(`/api/files`)).json();
